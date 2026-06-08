@@ -1,0 +1,62 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI;
+    }
+    
+    body{
+    background:#0f172a;
+    color:white;
+    padding:20px;
+    }
+    
+    .container{
+    max-width:1200px;
+    margin:auto;
+    }
+    
+    h1{
+    text-align:center;
+    margin-bottom:20px;
+    }
+    
+    .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    }
+    
+    .card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    }
+    
+    .relay-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-top:10px;
+    }
+    
+    .relay-btn{
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#334155;
+    color:white;
+    font-weight:bold;
+    transition:0.3s;
+    }
+    
+    .relay-btn.active{
+    background:#22c55e;
+    }
+    
+    @media(max-width:900px){
+    .grid{
+    grid-template-columns:1fr;
+    }
+    }
