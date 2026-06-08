@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IoT Dashboard ThingSpeak</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🌱 IoT Dashboard</h1>
+
+<div class="grid">
+
+  <div class="card">
+    <h2>🌡 Suhu (Channel 1)</h2>
+    <canvas id="tempChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>💧 Kelembapan (Channel 2)</h2>
+    <canvas id="humChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Control Relay</h2>
+
+    <div class="relay-grid">
+
+      <button class="relay-btn" id="relay1" onclick="toggleRelay(1)">
+        Relay 1
+      </button>
+
+      <button class="relay-btn" id="relay2" onclick="toggleRelay(2)">
+        Relay 2
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
