@@ -9,7 +9,7 @@ const CH1 = {
   };
   
   
-  // ================= SUHU CHART =================
+  // ================= SUHU =================
   const tempCtx = document.getElementById("tempChart");
   
   const tempChart = new Chart(tempCtx,{
@@ -24,6 +24,7 @@ const CH1 = {
   }]
   },
   options:{
+  responsive:true,
   scales:{
   x:{ticks:{color:'white'}},
   y:{ticks:{color:'white'}}
@@ -35,7 +36,7 @@ const CH1 = {
   });
   
   
-  // ================= KELEMBAPAN CHART =================
+  // ================= KELEMBAPAN =================
   const humCtx = document.getElementById("humChart");
   
   const humChart = new Chart(humCtx,{
@@ -50,6 +51,7 @@ const CH1 = {
   }]
   },
   options:{
+  responsive:true,
   scales:{
   x:{ticks:{color:'white'}},
   y:{ticks:{color:'white'}}
@@ -66,7 +68,7 @@ const CH1 = {
   
   try{
   
-  // ===== CHANNEL 1 (SUHU) =====
+  // ===== CH1 SUHU =====
   const r1 = await fetch(
   `https://api.thingspeak.com/channels/${CH1.id}/feeds.json?api_key=${CH1.key}&results=20`
   );
@@ -81,13 +83,15 @@ const CH1 = {
   const t = new Date(f.created_at).toLocaleTimeString();
   const temp = parseFloat(f.field1);
   
+  if(!isNaN(temp)){
   tempChart.data.labels.push(t);
   tempChart.data.datasets[0].data.push(temp);
+  }
   
   });
   
   
-  // ===== CHANNEL 2 (KELEMBAPAN) =====
+  // ===== CH2 KELEMBAPAN (FIX PENTING DI SINI) =====
   const r2 = await fetch(
   `https://api.thingspeak.com/channels/${CH2.id}/feeds.json?api_key=${CH2.key}&results=20`
   );
@@ -100,10 +104,14 @@ const CH1 = {
   d2.feeds.forEach(f=>{
   
   const t = new Date(f.created_at).toLocaleTimeString();
-  const hum = parseFloat(f.field2);
   
+  // 🔥 FIX: coba field1 dulu (lebih sering benar daripada field2)
+  const hum = parseFloat(f.field1) || parseFloat(f.field2);
+  
+  if(!isNaN(hum)){
   humChart.data.labels.push(t);
   humChart.data.datasets[0].data.push(hum);
+  }
   
   });
   
@@ -111,7 +119,7 @@ const CH1 = {
   humChart.update();
   
   }catch(err){
-  console.log(err);
+  console.log("ERROR:",err);
   }
   
   }
@@ -126,16 +134,13 @@ const CH1 = {
   
   const status = btn.classList.contains("active") ? 1 : 0;
   
-  // kirim ke ThingSpeak (relay field 1 & 2)
   fetch(
   `https://api.thingspeak.com/update?api_key=9KTMIHN5TJN6UJ66&field${num}=${status}`
   );
   
-  console.log("Relay",num,status);
-  
   }
   
   
-  // ================= AUTO REFRESH =================
+  // ================= AUTO UPDATE =================
   loadData();
   setInterval(loadData,15000);
